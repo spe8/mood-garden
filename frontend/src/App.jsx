@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import HomePage from './components/HomePage';
+import MainRoom from './components/MainRoom';
+import SongSearch from './components/SongSearch';
+import Garden from './components/Garden';
+import './App.css';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [currentView, setCurrentView] = useState('home');
+
+  const handleNavigate = (view) => {
+    setCurrentView(view);
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="app-container">
+      {currentView === 'home' && <HomePage onNavigate={handleNavigate} />}
+      
+      {currentView === 'room' && <MainRoom onNavigate={handleNavigate} />}
+      
+      {currentView === 'search' && (
+        <>
+          <button
+            onClick={() => handleNavigate('room')}
+            className="retro-button"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              left: '20px',
+              zIndex: 100
+            }}
+          >
+            🏠 Back to Room
+          </button>
+          <h1>🎵 Mood Garden</h1>
+          <div className="retro-panel">
+            <SongSearch />
+          </div>
+        </>
+      )}
+      
+      {currentView === 'garden' && (
+        <>
+          <button
+            onClick={() => handleNavigate('room')}
+            className="retro-button"
+            style={{
+              position: 'fixed',
+              top: '20px',
+              left: '20px',
+              zIndex: 100
+            }}
+          >
+            🏠 Back to Room
+          </button>
+          <h1>🎵 Mood Garden</h1>
+          <Garden />
+        </>
+      )}
+    </div>
+  );
 }
 
-export default App
+export default App;
